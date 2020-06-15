@@ -1,1 +1,18 @@
-Hello World
+<h1>Enter a Year Between 1582 and 2800:</h1>
+<form method="POST"">
+  {{ form.hidden_tag() }}
+  <div class="form-group">
+    {{ form.year.label }}
+    {% if form.year.errors %}
+        {% for e in form.year.errors %}
+            <p class="help-block">{{ e }}</p>
+        {% endfor %}
+    {% endif %}
+    {{ form.year(class_='form-control') }}
+  </div>
+  <input class="btn btn-primary" type="submit" value="Submit">
+</form>
+<h1>Result:</h1>
+<h2>1. Is it a leap year?</h2>
+<h2>2. The next five years are:</h2>
+<h2>2. The next five leap years are:</h2>
