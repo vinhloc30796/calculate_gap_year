@@ -6,11 +6,7 @@ def is_leap_year(year):
     Output:
     - leap (boolean): True if is leap year, False otherwise
     """
-    if year % 4 == 0:
-        if year % 100 == 0:
-            if year % 400 == 0:
-                return True
-            return False
+    if (year % 4 == 0 and year % 100 == 0) or year % 400 == 0:
         return True
     return False
 
