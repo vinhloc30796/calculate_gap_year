@@ -3,16 +3,33 @@
   {{ form.hidden_tag() }}
   <div class="form-group">
     {{ form.year.label }}
-    {% if form.year.errors %}
-        {% for e in form.year.errors %}
-            <p class="help-block">{{ e }}</p>
-        {% endfor %}
-    {% endif %}
+
     {{ form.year(class_='form-control') }}
+    {% if form.year.errors %}
+      {% for e in form.year.errors %}
+          <p class="help-block">{{ e }}</p>
+      {% endfor %}
+    {% endif %}
   </div>
   <input class="btn btn-primary" type="submit" value="Submit">
+  {% with messages = get_flashed_messages() %}
+    {% if messages %}
+      <p>{{ message }}</p>
+      <h1>Result:</h1>
+      <h2>1. Is it a leap year?</h2>
+      {{ result_is_leap_year }}
+      <h2>2. The next five years are:</h2>
+      {% for each_year in result_next_five_year %}
+        <p>{{ each_year }}</p>
+      {% endfor %}
+      <h2>2. The next five leap years are:</h2>
+      {% for each_year in result_next_five_leap.keys() %}
+        {% if result_next_five_leap[each_year] %}
+          <p>{{ each_year }}</p>
+        {% else %}
+          <p>Note that {{ each_year }} is not actually a leap year and is not included.</p>
+        {% endif %}
+      {% endfor %}
+    {% endif %}
+  {% endwith %}
 </form>
-<h1>Result:</h1>
-<h2>1. Is it a leap year?</h2>
-<h2>2. The next five years are:</h2>
-<h2>2. The next five leap years are:</h2>
