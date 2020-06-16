@@ -1,35 +1,65 @@
-<h1>Enter a Year Between 1582 and 2800:</h1>
+{% extends "base.html" %}
+{% block body %}
+<h2>Enter a Year Between 1582 and 2800:</h2>
 <form method="POST"">
   {{ form.hidden_tag() }}
-  <div class="form-group">
-    {{ form.year.label }}
-
-    {{ form.year(class_='form-control') }}
-    {% if form.year.errors %}
-      {% for e in form.year.errors %}
-          <p class="help-block">{{ e }}</p>
-      {% endfor %}
-    {% endif %}
+  <div class="form-group row">
+    <div class="col-sm">
+      {{ form.year(class_='form-control') }}
+    </div>
   </div>
-  <input class="btn btn-primary" type="submit" value="Submit">
+  <div class="row">
+    <div class="col-sm-1">
+      <input class="btn btn-primary" type="submit" value="Submit">
+    </div>
+    <div class="col-sm-5">
+      {% if form.year.errors %}
+        {% for e in form.year.errors %}
+            <div class="alert alert-danger" role="alert">{{ e }}</p>
+        {% endfor %}
+      {% endif %}
+    </div>
+  </div>
+
   {% with messages = get_flashed_messages() %}
     {% if messages %}
       <p>{{ message }}</p>
-      <h1>Result:</h1>
-      <h2>1. Is it a leap year?</h2>
-      {{ result_is_leap_year }}
-      <h2>2. The next five years are:</h2>
-      {% for each_year in result_next_five_year %}
-        <p>{{ each_year }}</p>
-      {% endfor %}
-      <h2>2. The next five leap years are:</h2>
-      {% for each_year in result_next_five_leap.keys() %}
-        {% if result_next_five_leap[each_year] %}
-          <p>{{ each_year }}</p>
-        {% else %}
-          <p>Note that {{ each_year }} is not actually a leap year and is not included.</p>
-        {% endif %}
-      {% endfor %}
+      <h2>Result:</h2>
+      <div class="row">
+        <div class="col-sm-4">
+          <h4>1. Is it a leap year?</h4>
+          <div class="card">
+            {% if result_is_leap_year %}
+              <img class="card-img-top" src="https://media.giphy.com/media/s2qXK8wAvkHTO/giphy.gif" alt="Happy New Year Yes GIF">
+              <p class="card-text mx-auto py-2">{{ form.year.data }} is a leap year.</p>
+            {% else %}
+              <img class="card-img-top" src="https://media.giphy.com/media/9Y5BbDSkSTiY8/giphy.gif" alt="Sad Face GIF">
+              <p class="card-text mx-auto py-2">{{ form.year.data }} is not a leap year.</p>
+            {% endif %}
+          </div>
+        </div>
+        <div class="col-sm-4">
+          <h4>2. The next five years are:</h4>
+          <ul class="list-group">
+            {% for each_year in result_next_five_year %}
+              <li class="list-group-item">{{ each_year }}</li>
+            {% endfor %}
+          </ul>
+        </div>
+        <div class="col-sm-4">
+          <h4>2. The next five leap years are:</h4>
+          <ul class="list-group">
+            {% for each_year in result_next_five_leap.keys() %}
+              {% if result_next_five_leap[each_year] %}
+                <li class="list-group-item">{{ each_year }}</li>
+              {% else %}
+                <li class="list-group-item list-group-item-warning">Note that {{ each_year }} is not actually a leap year and is not included.</li>
+              {% endif %}
+            {% endfor %}
+          </ul>
+        </div>
+      </div>
     {% endif %}
   {% endwith %}
 </form>
+{% endblock %}
